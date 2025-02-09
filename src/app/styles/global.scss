@@ -1,0 +1,769 @@
+// ====================
+// Global Variables
+// ====================
+:root {
+  --background: #f8f9fc;
+  --foreground: #2c2c2c;
+  --primary: #5a67d8;
+  --primary-light: #d3d0fa;
+  --secondary: #ed64a6;
+  --accent-green: #38a169;
+  --neutral: #9a9a9a;
+  --neutral-border: #e2e8f0;
+  --shadow: rgba(0, 0, 0, 0.05);
+  --shadow-hover: rgba(0, 0, 0, 0.1);
+  --transition: all 0.2s ease-in-out;
+}
+
+// ====================
+// Base Styles
+// ====================
+nextjs-portal {
+  display: none;
+}
+* {
+  box-sizing: border-box;
+}
+html,
+body {
+  font-family: "Segoe UI", Tahoma, Verdana, sans-serif;
+  color: var(--foreground);
+  background: var(--background);
+  margin: 0;
+  padding-top: 50px;
+  min-height: 96vh !important;
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  text-align: center;
+}
+body > :not(.header):not(.footer) {
+  flex: 1;
+}
+
+.header {
+  position: fixed;
+  top: 0;
+  width: 100%;
+  height: 50px;
+  background-color: var(--primary);
+  display: flex;
+  align-items: center;
+  box-shadow: 0 2px 4px var(--shadow);
+  z-index: 1000;
+
+  .header-content {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    width: 100%;
+    padding: 0 1rem;
+  }
+
+  .left-section {
+    position: relative;
+    display: flex;
+    align-items: center;
+
+    .menu-icon {
+      background: transparent;
+      border: none;
+      color: var(--background);
+      font-size: 1.5rem;
+      cursor: pointer;
+    }
+
+    .dropdown-menu {
+      position: absolute;
+      top: 50px;
+      left: 0;
+      background-color: var(--neutral-border);
+      border: 1px solid var(--neutral-border);
+      border-radius: 4px;
+      box-shadow: 0 2px 8px var(--shadow);
+      width: 200px;
+
+      ul {
+        list-style: none;
+        margin: 0;
+        padding: 0;
+
+        li {
+          padding: 0.5rem 1rem;
+          cursor: pointer;
+          color: var(--foreground);
+          transition: var(--transition);
+
+          &:hover {
+            color: var(--secondary);
+          }
+        }
+      }
+    }
+  }
+
+  .center-section {
+    .page-title {
+      font-size: 1.2rem;
+      color: var(--background);
+      margin: 0;
+    }
+  }
+
+  .right-section {
+    .profile-menu {
+      position: relative;
+      display: inline-flex;
+      align-items: center;
+      font-size: 1rem;
+      color: var(--background);
+      cursor: pointer;
+      padding: 0.25rem 0.5rem;
+      border: 1px solid transparent;
+      border-radius: 4px;
+      transition: border 0.2s ease-in-out;
+
+      &:hover {
+        border: 1px solid var(--background);
+      }
+
+      .logout-button {
+        position: absolute;
+        right: 100%;
+        margin-right: 8px;
+        opacity: 0;
+        transform: translateX(10px);
+        transition: opacity 0.3s ease, transform 0.3s ease;
+        background: transparent;
+        color: var(--background);
+        border: 1px solid var(--background);
+        border-radius: 4px;
+        padding: 0.25rem 0.5rem;
+        font-size: 0.9rem;
+        white-space: nowrap;
+      }
+
+      &:hover .logout-button {
+        opacity: 1;
+        transform: translateX(0);
+      }
+    }
+  }
+}
+
+.footer {
+  margin-top: auto;
+  width: 100%;
+  border-top: 1px solid var(--neutral-border);
+  padding: 0.5rem 0;
+  background-color: transparent;
+
+  .footer-container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 1rem;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 0.5rem;
+  }
+
+  p {
+    color: var(--foreground);
+    margin: 0;
+    padding: 10px;
+  }
+}
+
+// ====================
+// Utility Classes
+// ====================
+.flex-center {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+// ====================
+// Typography
+// ====================
+h1 {
+  font-size: 2.4rem;
+  margin-bottom: 8px;
+  color: var(--foreground);
+}
+p {
+  font-size: 1rem;
+  color: var(--neutral);
+  margin: 0 auto 24px;
+  text-align: center;
+  width: 100%;
+  max-width: 700px;
+  line-height: 1.5;
+}
+
+// ====================
+// Form Elements
+// ====================
+.input {
+  width: 260px;
+  height: 44px;
+  padding: 10px;
+  font-size: 15px;
+  border: 1px solid var(--neutral-border);
+  border-radius: 6px;
+  margin: 15px 5px;
+  transition: var(--transition);
+
+  &:focus {
+    border-color: var(--primary);
+    box-shadow: 0 0 6px var(--primary-light);
+    outline: none;
+  }
+  &:hover {
+    background-color: var(--background);
+  }
+}
+.error {
+  font-size: 13px;
+  color: var(--secondary);
+  margin: -15px 0 8px;
+}
+
+// ====================
+// Buttons
+// ====================
+.button {
+  min-width: 200px;
+  height: 44px;
+  font-size: 15px;
+  font-weight: 600;
+  border: none;
+  border-radius: 6px;
+  background: var(--primary);
+  color: #ffffff;
+  cursor: pointer;
+  transition: var(--transition);
+  margin: 15px 0;
+  padding: 0 15px;
+
+  &:hover {
+    background: var(--primary-light);
+    box-shadow: 0px 4px 8px var(--shadow-hover);
+    transform: translateY(-1px);
+  }
+  &.secondary {
+    background: var(--secondary);
+    &:hover {
+      background: #f08dbb;
+    }
+  }
+  &.contrast {
+    background: var(--accent-green);
+    &:hover {
+      background: #7bd39d;
+    }
+  }
+  &.compact {
+    width: auto;
+    padding: 0 1rem;
+    height: 36px;
+    font-size: 14px;
+    margin: 0;
+  }
+  &.danger {
+    background: var(--secondary);
+    &:hover {
+      background: #e74c3c;
+    }
+  }
+}
+.button-group {
+  display: flex;
+  justify-content: center;
+  gap: 16px;
+  margin-top: 12px;
+}
+
+// ====================
+// Management Components
+// ====================
+.management-container {
+  width: 100%;
+  flex: 1;
+  align-self: center;
+  flex-direction: column;
+  max-width: 1200px;
+  background: #fff;
+  box-shadow: 0 4px 12px var(--shadow-hover);
+  border-radius: 12px;
+  padding: 24px;
+  margin-bottom: 50px;
+
+  .management-header {
+    margin-bottom: 24px;
+    text-align: center;
+  }
+}
+
+// ====================
+// List Components
+// ====================
+.data-list {
+  list-style: none;
+  margin: 0 0 24px;
+  padding: 0;
+  .data-item {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background: var(--background);
+    padding: 12px;
+    border-radius: 6px;
+    margin-bottom: 8px;
+    box-shadow: 0 2px 4px var(--shadow);
+    transition: var(--transition);
+    &:hover {
+      transform: translateX(5px);
+      box-shadow: 0 4px 8px var(--shadow-hover);
+    }
+    .item-content {
+      flex: 1;
+      margin-right: 16px;
+    }
+    .item-actions {
+      display: flex;
+      gap: 8px;
+    }
+  }
+}
+
+// ====================
+// Form Components
+// ====================
+.management-form {
+  display: grid;
+  gap: 1rem;
+  grid-template-columns: 1fr 1fr auto;
+  align-items: end;
+  padding-top: 24px;
+  border-top: 1px solid var(--neutral-border);
+  .form-input {
+    flex: 1;
+    max-width: 400px;
+  }
+  button {
+    width: 100%;
+  }
+  @media (max-width: 768px) {
+    grid-template-columns: 1fr;
+  }
+}
+
+// ====================
+// Status Indicators
+// ====================
+.status-message {
+  padding: 1rem;
+  border-radius: 6px;
+  text-align: center;
+  margin: 1rem 0;
+  &.loading {
+    background: rgba(var(--primary), 0.1);
+    color: var(--primary);
+  }
+  &.error {
+    background: rgba(var(--secondary), 0.1);
+    color: var(--secondary);
+  }
+}
+
+// ====================
+// Login Page Specific
+// ====================
+.login-form {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin: 50px 0 0;
+  gap: 1rem;
+  width: 100%;
+  max-width: 400px;
+  .input-group {
+    display: flex;
+    gap: 1rem;
+    width: 100%;
+    @media (max-width: 480px) {
+      flex-direction: column;
+      gap: 0.5rem;
+    }
+  }
+  .input {
+    width: 100%;
+    margin: 0;
+    flex: 1;
+  }
+  .button {
+    width: 100%;
+    margin: 0;
+  }
+}
+
+// ====================
+// Classes Page Specific
+// ====================
+.classes-list {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  gap: 24px;
+  padding: 16px;
+  background-color: #f5f5f5;
+
+  .class-card {
+    background: #fff;
+    border: 1px solid #e0e0e0;
+    border-radius: 8px;
+    display: flex;
+    flex-direction: column;
+    transition: box-shadow 0.3s ease;
+
+    &:hover {
+      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    }
+
+    .class-summary {
+      display: flex;
+      flex-direction: column;
+      gap: 4px;
+    }
+    .button {
+      margin-top: 8px;
+    }
+  }
+}
+
+// ====================
+// Control Panel Specific
+// ====================
+.control-panel {
+  @extend .management-container;
+  .input,
+  .button {
+    width: 100% !important;
+    max-width: 100%;
+    margin: 15px auto;
+  }
+  .panel-container {
+    text-align: center;
+  }
+  .stats-section {
+    display: flex;
+    justify-content: space-evenly;
+    margin: 24px 0;
+    .stat {
+      text-align: center;
+      h2 {
+        font-size: 2.4rem;
+        color: var(--primary);
+        margin: 0;
+      }
+      p {
+        font-size: 1.2rem;
+        color: var(--neutral);
+        margin: 4px 0 0;
+      }
+    }
+  }
+  .links-section {
+    display: flex;
+    justify-content: center;
+    gap: 16px;
+    margin: 24px 0;
+  }
+}
+
+// ====================
+// Groups Randomizer Specific
+// ====================
+.class-selector {
+  width: 100%;
+  max-width: 1200px;
+  background: #fff;
+  box-shadow: 0 4px 12px var(--shadow-hover);
+  border-radius: 8px;
+  padding: 16px;
+  margin-bottom: 16px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+
+  .current-class {
+    font-size: 1.2rem;
+    color: var(--primary);
+  }
+
+  .class-dropdown {
+    select {
+      padding: 8px 12px;
+      font-size: 1rem;
+      border: 1px solid var(--neutral-border);
+      border-radius: 4px;
+      outline: none;
+      background: #fff;
+      cursor: pointer;
+      transition: border 0.2s ease;
+
+      &:focus {
+        border-color: var(--primary);
+      }
+    }
+  }
+}
+
+.groups-container {
+  @extend .management-container;
+  width: 90%;
+  display: flex;
+  align-items: stretch;
+  background: none;
+  box-shadow: none;
+
+  .groups-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 16px;
+    width: 100%;
+  }
+
+  .group-card {
+    position: relative; // Added for positioning the delete button
+    background: #fff;
+    border: 1px solid var(--neutral-border);
+    border-radius: 8px;
+    padding: 16px;
+    box-shadow: 0 2px 4px var(--shadow);
+    transition: all 0.2s ease;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+
+    &:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 4px 8px var(--shadow-hover);
+    }
+
+    &.drag-over {
+      border: 2px dashed var(--primary);
+      transform: scale(1.02);
+    }
+
+    // Delete button at top right
+    .delete-group-button {
+      position: absolute;
+      top: 8px;
+      right: 8px;
+      background: transparent;
+      border: none;
+      color: red;
+      font-size: 1.2rem;
+      cursor: pointer;
+      z-index: 2;
+
+      &:hover {
+        color: darkred;
+      }
+    }
+
+    .group-name-input {
+      font-size: 1.4rem;
+      font-weight: 600;
+      text-align: center;
+      color: #f08dbb;
+      border: none;
+      background: transparent;
+      margin-bottom: 12px;
+      width: 100%;
+      max-width: 80%;
+      transition: border-bottom 0.2s ease;
+
+      &:focus {
+        outline: none;
+        border-bottom: 2px solid var(--primary);
+      }
+    }
+
+    .students-grid {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+      justify-content: center;
+
+      .student {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        width: 70px;
+        text-align: center;
+        cursor: grab;
+        transition: opacity 0.2s ease, transform 0.2s ease;
+        position: relative;
+
+        &.dragging {
+          opacity: 0.4;
+          transform: scale(0.9);
+          cursor: grabbing;
+        }
+
+        .student-img {
+          width: 100%;
+          border-radius: 50%;
+          object-fit: cover;
+          border: 2px solid var(--neutral-border);
+          transition: border-color 0.2s ease;
+
+          &.leader {
+            border-color: #ffd700;
+          }
+        }
+
+        .student-name {
+          font-size: 1rem;
+          color: var(--foreground);
+        }
+
+        .star-icon {
+          font-size: 1.2rem;
+          color: #ffd700;
+          margin-top: 4px;
+          cursor: pointer;
+          transition: transform 0.2s ease;
+
+          &:hover {
+            transform: scale(1.1);
+          }
+        }
+      }
+    }
+  }
+
+  .group-card.unassigned {
+    grid-column: 1 / -1;
+    background: var(--background);
+    border: 1px dashed var(--neutral-border);
+
+    &.drag-over {
+      border-color: var(--accent-green);
+      transform: scale(1.02);
+    }
+
+    .group-name-input {
+      color: var(--neutral);
+    }
+  }
+}
+
+.randomize-sidebar {
+  width: 100%;
+  max-width: 1200px;
+  background: #fff;
+  box-shadow: 0 4px 12px var(--shadow-hover);
+  border-radius: 8px;
+  padding: 16px;
+  margin-top: 32px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+
+  h2 {
+    font-size: 2rem;
+    margin-bottom: 16px;
+    color: var(--primary);
+  }
+  .method-selector {
+    display: flex;
+    gap: 1rem;
+    margin-bottom: 1rem;
+  }
+  .input-group {
+    display: flex;
+    gap: 16px;
+    width: 100%;
+    max-width: 600px;
+    margin-bottom: 16px;
+    .input {
+      width: 100%;
+    }
+  }
+
+  .button {
+    width: auto;
+    max-width: 200px;
+    background: var(--secondary);
+    margin: 10px;
+    &:hover {
+      background: #f08dbb;
+    }
+    &.contrast {
+      margin-bottom: 12px;
+    }
+  }
+  .save-message {
+    margin: 0;
+    font-size: 0.9rem;
+    text-align: center;
+    &.success {
+      color: var(--accent-green);
+    }
+    &.error {
+      color: var(--secondary);
+    }
+  }
+}
+
+// ====================
+// Mobile Styles (Screen width <= 1200px)
+// ====================
+@media (max-width: 1200px) {
+  .input,
+  .button {
+    width: 100% !important;
+    max-width: 100%;
+    margin: 15px auto auto auto !important;
+  }
+  .management-form .form-input {
+    width: 100%;
+    max-width: 100%;
+  }
+  .management-container {
+    max-width: 95%;
+    padding: 20px;
+  }
+  .management-form {
+    grid-template-columns: 1fr !important;
+  }
+  .login-form {
+    .input-group {
+      flex-direction: column;
+      gap: 0.5rem;
+    }
+  }
+  .control-panel {
+    .stats-section {
+      overflow-x: auto;
+    }
+  }
+  .button-group {
+    flex-direction: column;
+    gap: 8px;
+  }
+  p {
+    padding: 0 1rem;
+  }
+  .content-wrapper {
+    flex-direction: column;
+  }
+  .randomize-sidebar {
+    width: 100%;
+  }
+}
